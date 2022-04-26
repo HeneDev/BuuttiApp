@@ -36,7 +36,6 @@ const BookForm = ({
             }
 
             const newBook = await bookService.addNewBook(newBookObject)
-            console.log(newBook)
             // After initializing the new object, reset all properties
             setTitle("")
             setAuthor("")
@@ -72,8 +71,8 @@ const BookForm = ({
 
         await bookService.deleteBook(selectedBook._id)
 
-        setBookList(bookList.filter((book) => {
-            return book._id !== selectedBook._id
+        setBookList(bookList => bookList.filter(book => {
+          return book._id !== selectedBook._id
         }))
 
         setTitle("")
