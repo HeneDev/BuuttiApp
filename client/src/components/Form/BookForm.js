@@ -69,12 +69,11 @@ const BookForm = ({
 
     const handleBookDeletion = async(e) => {
         e.preventDefault()
-        
-        const bookToDelete = bookList.find(book => book.title === title && book.author === author)
-        await bookService.deleteBook(bookToDelete._id)
+
+        await bookService.deleteBook(selectedBook._id)
 
         setBookList(bookList.filter((book) => {
-            return book._id !== bookToDelete._id
+            return book._id !== selectedBook._id
         }))
 
         setTitle("")
