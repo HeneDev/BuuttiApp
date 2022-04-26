@@ -12,11 +12,16 @@ const addNewBook = async(newBook) => {
     return response.data
 }
 
+const updateBook = async(id, updatedBook) => {
+    const response = await axios.put(baseUrl + "/update/" + id, updatedBook)
+    return response.data
+}
+
 const deleteBook = async(id) => {
     const response = await axios.delete(baseUrl + "/delete/" + id)
     return response.data
 }
 
 export default {
-    retrieveAllBooks, addNewBook, deleteBook
+    retrieveAllBooks, addNewBook, updateBook, deleteBook
 }

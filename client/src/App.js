@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import "./App.css"
 import BookForm from './components/Form/BookForm'
 import BookList from "./components/BookList/BookList"
 import bookService from './services/BookData'
@@ -9,6 +8,7 @@ const App = () => {
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [description, setDescription] = useState("")
+  const [selectedBook, setSelectedBook] = useState([])
 
 
   useEffect(() => {
@@ -22,10 +22,11 @@ const App = () => {
     }
     retrieveBooks()
   }, [])
+
   return (
     <Container>
       <Row>
-        <Col>
+        <Col style={{paddingTop:"70px"}}>
         <BookForm 
         bookList={bookList}
         setBookList={setBookList}
@@ -34,9 +35,11 @@ const App = () => {
         author={author}
         setAuthor={setAuthor}
         description={description}
-        setDescription={setDescription}/>
+        setDescription={setDescription}
+        selectedBook={selectedBook}
+        setSelectedBook={setSelectedBook}/>
         </Col>
-        <Col className="bookCol">
+        <Col style={{paddingTop:"100px"}}>
         <BookList 
         bookList={bookList}
         title={title}
@@ -44,7 +47,9 @@ const App = () => {
         author={author}
         setAuthor={setAuthor}
         description={description}
-        setDescription={setDescription} />
+        setDescription={setDescription}
+        selectedBook={selectedBook}
+        setSelectedBook={setSelectedBook} />
         </Col>
       </Row>
     </Container>

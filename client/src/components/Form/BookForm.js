@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, Button } from 'react-bootstrap'
 import bookService from '../../services/BookData'
 
@@ -10,7 +10,9 @@ const BookForm = ({
     author,
     setAuthor,
     description,
-    setDescription }) => {
+    setDescription,
+    selectedBook,
+    setSelectedBook}) => {
 
     const onTitleChange = (newTitle) => {
         setTitle(newTitle)
@@ -26,7 +28,6 @@ const BookForm = ({
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-
         try {
             const newBookObject = {
                 title: title,
@@ -35,12 +36,14 @@ const BookForm = ({
             }
 
             const newBook = await bookService.addNewBook(newBookObject)
-
+            console.log(newBook)
             // After initializing the new object, reset all properties
             setTitle("")
             setAuthor("")
             setDescription("")
+            setSelectedBook([])
 
+            // React way to updating lists
             const newList = []
             newList.push(...bookList, newBook)
             setBookList(newList)
@@ -48,19 +51,40 @@ const BookForm = ({
             console.log("Error: ", err)
         }
     }
+
+    const handleBookUpdate = async(e) => {
+      e.preventDefault()
+      const newBook = {
+        title: title,
+        author: author,
+        description: description
+      }
+      const updatedBook = await bookService.updateBook(selectedBook._id, newBook)
+
+      // Map through booklist and replace the old book
+      setBookList(bookList.map(book => {
+        return book._id === selectedBook._id ? book = updatedBook : book
+      }))
+    }
+
     const handleBookDeletion = async(e) => {
         e.preventDefault()
         
-        const bookToDelete = bookList.find(book => book.title == title && book.author == author)
+        const bookToDelete = bookList.find(book => book.title === title && book.author === author)
         await bookService.deleteBook(bookToDelete._id)
 
         setBookList(bookList.filter((book) => {
-            return book._id != bookToDelete._id
+            return book._id !== bookToDelete._id
         }))
 
         setTitle("")
         setAuthor("")
         setDescription("")
+        setSelectedBook([])
+    }
+
+    const isBookSelected = () => {
+      return selectedBook.length === 0 ? true : false 
     }
 
 
@@ -88,7 +112,8 @@ const BookForm = ({
 
     <Form.Group className="mb-3">
       <Form.Label>Description</Form.Label>
-      <Form.Control 
+      <Form.Control
+      as="textarea" 
       type="text"
       placeholder="Enter description"
       value={description ?? ""}
@@ -99,10 +124,10 @@ const BookForm = ({
     <Button variant="primary" type="button" onClick={handleSubmit}>  
       Save New
     </Button>{' '}
-    <Button variant="secondary" type="button">
+    <Button variant="secondary" disabled={isBookSelected()} type="button" onClick={handleBookUpdate} >
       Save
     </Button>{' '}
-    <Button variant="danger" type="button" onClick={handleBookDeletion}>
+    <Button variant="danger" disabled={isBookSelected()} type="button" onClick={handleBookDeletion}>
       Delete
     </Button>
   </Form>

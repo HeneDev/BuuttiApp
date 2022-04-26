@@ -22,6 +22,27 @@ router.get("/", async (req, res) => {
     }
 })
 
+// Modify a book
+router.put("/update/:id", async(req, res) => {
+    try {
+        const id = req.params.id
+        const newBook = req.body
+        let bookToUpdate = await Book.findById(id)
+
+        //Update the books fields
+        bookToUpdate.title = newBook.title
+        bookToUpdate.author = newBook.author
+        bookToUpdate.description = newBook.description
+
+        //Save the updated book
+        await bookToUpdate.save()
+        res.status(200).json(bookToUpdate)
+    } catch(err) {
+        res.status(500).json(err)
+        console.log(err)
+    }
+})
+
 // Remove a book by id
 router.delete("/delete/:id", async (req, res) => {
     try {
