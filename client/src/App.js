@@ -9,17 +9,20 @@ const App = () => {
   const [author, setAuthor] = useState("")
   const [description, setDescription] = useState("")
   const [selectedBook, setSelectedBook] = useState([])
+  const [loading, setLoading] = useState(false)
 
 
   useEffect(() => {
     const retrieveBooks = async() => {
       try {
+        setLoading(true)
         const response = await bookService.retrieveAllBooks()
         setBookList(response)
       } catch(err) {
         console.log("Error: ", err)
       }
     }
+    setLoading(false)
     retrieveBooks()
   }, [])
 
@@ -42,6 +45,7 @@ const App = () => {
         <Col style={{paddingTop:"100px"}}>
         <BookList 
         bookList={bookList}
+        loading={loading}
         title={title}
         setTitle={setTitle}
         author={author}
