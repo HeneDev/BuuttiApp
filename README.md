@@ -25,7 +25,6 @@ npm i
 ```
 npm start
 ```
-- **Provide the .env file to the /client directory to use heroku deployment server.**
 - **Inside the /client directory, run the command**
 
 ```
