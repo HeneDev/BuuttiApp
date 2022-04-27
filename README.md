@@ -19,7 +19,7 @@ npm i
 ```
 
 #### Running the application
-- **If you wish to use the MongoDB Database, Provide the .env file to the /server directory.**
+- **Provide the .env file to the /server directory to use MongoDB database**
 - **Inside the /server directory, run the command**
 
 ```
