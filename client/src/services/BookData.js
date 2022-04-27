@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = "http://localhost:3001/api/books"
+const baseUrl = process.env.REACT_APP_BASE_URL
 
 const retrieveAllBooks = async() => {
     const response = await axios.get(baseUrl)
