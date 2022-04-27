@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = process.env.REACT_APP_BASE_URL
+const baseUrl = "https://buuttiapp-backend.herokuapp.com/api/books"
 
 const retrieveAllBooks = async() => {
     const response = await axios.get(baseUrl)
@@ -22,6 +22,7 @@ const deleteBook = async(id) => {
     return response.data
 }
 
+// eslint-disable-next-line
 export default {
     retrieveAllBooks, addNewBook, updateBook, deleteBook
 }

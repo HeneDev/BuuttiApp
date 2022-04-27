@@ -1,14 +1,28 @@
 const router = require("express").Router()
+const { body, validationResult } = require("express-validator")
 const Book = require("../models/Book")
 
 // Create new Book
-router.post("/add", async (req, res) => {
-    const newBook = new Book(req.body)
+router.post("/add",
+//Title, author or description must not be empty
+ body("title").notEmpty(),
+ body("author").notEmpty(),
+ body("description").notEmpty(),
+ async (req, res) => {
     try {
+         // Errors, if validation fails
+        const errors = validationResult(req)
+        // If validation contains errors, return
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        } 
+
+        // Otherwise continue
+        const newBook = new Book(req.body)
         const savedBook = await newBook.save();
         res.status(200).json(savedBook)
     } catch(err) {
-        res.status(500).json(err)
+        res.status(500).json( { message: err.message })
     }
 })
 
