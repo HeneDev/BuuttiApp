@@ -25,8 +25,16 @@ npm i
 ```
 npm start
 ```
-- **Inside the /client directory, run the command**
-
+- **Inside the /client directory**
+- **In the path**
+```
+BuuttiApp\client\src\services\BookData.js
+```
+- **Replace line 3 with the following code**
+```
+const baseUrl = “http://localhost:3001/api/books”
+```
+- **After that, start the client by running the following command in terminal**
 ```
 npm start
 ```
